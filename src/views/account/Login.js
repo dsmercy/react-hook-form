@@ -28,11 +28,11 @@ function Login() {
      
 
       <Form.Group className="mb-3" controlId="formGridAddress1">
-        <Form.Label>Email</Form.Label>
+        <Form.Label>User Name</Form.Label>
         <Form.Control placeholder="1234 Main St"   {...register("username", { required: true })}
-          isInvalid={!!errors.email} />
+          isInvalid={!!errors.username} />
         <Form.Control.Feedback type="invalid">
-            Please provide a valid email.
+            Please provide username.
           </Form.Control.Feedback>
       </Form.Group>
 
