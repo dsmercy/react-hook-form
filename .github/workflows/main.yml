@@ -31,6 +31,11 @@ jobs:
           echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > /tmp/kubeconfig.yaml
           echo "KUBECONFIG=/tmp/kubeconfig.yaml" >> $GITHUB_ENV
 
+      - name: Print KUBECONFIG
+        run: |
+          echo $KUBECONFIG
+          cat $KUBECONFIG          
+
       - name: Install Helm
         run: |
           curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
@@ -40,7 +45,6 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           # kubectl config use-context $KUBECONFIG
-          echo $KUBECONFIG
           helm upgrade --install ecom-api ../../deploy/react-hook-form/. --namespace "development" \
             --set image.repository=dsmercy/react-hook-form \
             --set image.tag=1.0.${{ github.run_number }} \
