@@ -28,7 +28,7 @@ jobs:
 
       - name: Set up kubeconfig
         run: |
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > /tmp/kubeconfig.yaml
+          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > /tmp/kubeconfig.yaml
           echo "KUBECONFIG=/tmp/kubeconfig.yaml" >> $GITHUB_ENV
 
       - name: Print KUBECONFIG
