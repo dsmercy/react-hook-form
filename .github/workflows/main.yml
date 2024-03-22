@@ -24,13 +24,23 @@ jobs:
         with:
           context: .
           push: true
-          tags: dsmercy/react-hook-form:${{ github.sha }}
+          tags: dsmercy/react-hook-form:1.0.${{ github.run_number }}
 
       - name: Set up kubeconfig
         run: |
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > /tmp/kubeconfig.yaml
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > /tmp/kubeconfig.yaml
           echo "KUBECONFIG=/tmp/kubeconfig.yaml" >> $GITHUB_ENV
+
+      - name: Install Helm
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f k8s-deployment.yaml
+          # kubectl config use-context ecom-world/ecom-connection:ecom-agent
+          helm upgrade --install ecom-api ../../deploy/react-hook-form/. --namespace "development" \
+            --set image.repository=dsmercy/react-hook-form \
+            --set image.tag=1.0.${{ github.run_number }} \
+            --set namespace=development
