@@ -39,7 +39,7 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          # kubectl config use-context ecom-world/ecom-connection:ecom-agent
+          # kubectl config use-context $KUBECONFIG
           helm upgrade --install ecom-api ../../deploy/react-hook-form/. --namespace "development" \
             --set image.repository=dsmercy/react-hook-form \
             --set image.tag=1.0.${{ github.run_number }} \
