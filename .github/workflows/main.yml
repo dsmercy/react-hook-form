@@ -45,7 +45,7 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           # kubectl config use-context $KUBECONFIG
-          helm upgrade --install react-hook-form ../deploy/react-hook-form/. --namespace "development" \
+          helm upgrade --install react-hook-form ../../deploy/react-hook-form/. --namespace "development" \
             --set image.repository=dsmercy/react-hook-form \
             --set image.tag=1.0.${{ github.run_number }} \
             --set namespace=development
