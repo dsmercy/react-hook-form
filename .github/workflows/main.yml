@@ -49,24 +49,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy-secrets
     steps:
-      # - name: Set up kubeconfig
-        # run: |
-        #   echo "${{ secrets.KUBECONFIG }}" | base64 --decode > /tmp/kubeconfig.yaml
-        #   echo "KUBECONFIG=/tmp/kubeconfig.yaml" >> $GITHUB_ENV
-      # - name: Deploy application to Kubernetes
-      #   uses: azure/k8s-deploy@v1
-      #   with:
-      #     # kubeconfig: ${{ secrets.KUBECONFIG }}
-      #     namespace: ${{ env.NAMESPACE }}
-      #     manifests: ./deploy/react-hook-form/.
-      #     images: |
-      #       ${{ env.IMAGE }}:1.0.${{ github.run_number }}
-      #     imagePullSecrets: |
-      #       ${{ env.APPLICATION_NAME }}-secrets
       - name: Deploy to Kubernetes
         run: |
-          # kubectl config use-context $KUBECONFIG
           helm upgrade --install ${{ env.APPLICATION_NAME }} ./deploy/react-hook-form/. --namespace ${{ env.NAMESPACE }} \
             --set image.repository=${{ env.IMAGE }} \
             --set image.tag=${{ env.TAG }} \
-            --set namespace=development
+            --set namespace=${{ env.NAMESPACE }}
