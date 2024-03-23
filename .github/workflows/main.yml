@@ -51,6 +51,7 @@ jobs:
         uses: azure/k8s-set-context@v1
         with:
           kubeconfig: ${{ secrets.KUBECONFIG }}
+          namespace: ${{ env.NAMESPACE }}
         # env:
         #   KUBECONFIG: ${{ secrets.KUBECONFIG }}
         #   NAMESPACE: ${{ env.NAMESPACE }}
