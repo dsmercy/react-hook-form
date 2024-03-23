@@ -46,23 +46,25 @@ jobs:
       - name: Deploy secrets to Kubernetes
         uses: azure/k8s-set-context@v1
         with:
-          # kubeconfig: ${{ secrets.KUBE_CONFIG }}
+          kubeconfig: ${{ secrets.KUBECONFIG }}
           namespace: ${{ env.NAMESPACE }}
         env:
           MY_CONNECTION_STRING: ${{ secrets.MY_CONNECTION_STRING }}
+        # echo "populate $APPLICATION_NAME-secrets secrets in k8s"
+        # kubectl --namespace "${NAMESPACE}" create secret generic ${{ env.APPLICATION_NAME }}-secrets --from-literal=my_connection_string="$MY_CONNECTION_STRING" --dry-run=client -o yaml | kubectl apply -f -
 
   deploy-app:
     runs-on: ubuntu-latest
     needs: deploy-secrets
     steps:
       - name: Set up kubeconfig
-        run: |
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > /tmp/kubeconfig.yaml
-          echo "KUBECONFIG=/tmp/kubeconfig.yaml" >> $GITHUB_ENV
+        # run: |
+        #   echo "${{ secrets.KUBECONFIG }}" | base64 --decode > /tmp/kubeconfig.yaml
+        #   echo "KUBECONFIG=/tmp/kubeconfig.yaml" >> $GITHUB_ENV
       # - name: Deploy application to Kubernetes
       #   uses: azure/k8s-deploy@v1
       #   with:
-      #     # kubeconfig: ${{ secrets.KUBE_CONFIG }}
+      #     # kubeconfig: ${{ secrets.KUBECONFIG }}
       #     namespace: ${{ env.NAMESPACE }}
       #     manifests: ./deploy/react-hook-form/.
       #     images: |
