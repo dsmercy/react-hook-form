@@ -49,9 +49,8 @@ jobs:
     steps:
       - name: Debug Kubernetes Context
         run: |
-          kubectl config view
+          cat $KUBECONFIG
           kubectl config current-context
-          kubectl cluster-info
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
           NAMESPACE: ${{ env.NAMESPACE }}
