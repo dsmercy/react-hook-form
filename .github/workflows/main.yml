@@ -15,6 +15,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: List directories
+        run: |
+          echo "ls ../react-hook-form"
+          ls ../react-hook-form
+          echo "ls ./deploy/react-hook-form"
+          ls ./deploy/react-hook-form
       - name: Checkout code
         uses: actions/checkout@v2
 
