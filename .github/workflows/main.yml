@@ -57,8 +57,8 @@ jobs:
         #   NAMESPACE: ${{ env.NAMESPACE }}
       - name: Deploy to Kubernetes
         run: |
-          echo "ls ls ../"
-          ls ls ../
+          echo "ls ../"
+          ls ../
           echo "ls ../react-hook-form"
           ls ../react-hook-form
           helm upgrade --install ${{ env.APPLICATION_NAME }} ../react-hook-form/. --namespace ${{ env.NAMESPACE }} \
