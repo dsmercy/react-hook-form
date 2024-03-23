@@ -57,15 +57,20 @@ jobs:
         #   NAMESPACE: ${{ env.NAMESPACE }}
       - name: Deploy to Kubernetes
         run: |
-          echo "ls ./"
-          ls ./
-          echo "ls ./deploy"
-          ls ./deploy
           echo "ls ../"
           ls ../
           echo "ls ../react-hook-form"
           ls ../react-hook-form
-          helm upgrade --install ${{ env.APPLICATION_NAME }} ../react-hook-form/. --namespace ${{ env.NAMESPACE }} \
-            --set image.repository=${{ env.IMAGE }} \
-            --set image.tag=${{ env.TAG }} \
-            --set namespace=${{ env.NAMESPACE }}
+      - name: Deploy to Kubernetes using Helm
+        uses: Azure/k8s-deploy@v1
+        with:
+          namespace: ${{ env.NAMESPACE }}
+          manifests: ../react-hook-form/.
+          helm-chart: ../react-hook-form/.
+          helm-release: ${{ env.APPLICATION_NAME }}
+          helm-arguments: '--set image.repository=${{ env.IMAGE }},image.tag=${{ env.TAG }},namespace=${{ env.NAMESPACE }}'
+          kubectl-version: 'latest'
+          # helm upgrade --install ${{ env.APPLICATION_NAME }} ../react-hook-form/. --namespace ${{ env.NAMESPACE }} \
+          #   --set image.repository=${{ env.IMAGE }} \
+          #   --set image.tag=${{ env.TAG }} \
+          #   --set namespace=${{ env.NAMESPACE }}
