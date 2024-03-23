@@ -57,6 +57,10 @@ jobs:
         #   NAMESPACE: ${{ env.NAMESPACE }}
       - name: Deploy to Kubernetes
         run: |
+          echo "ls ./"
+          ls ./
+          echo "ls ./deploy"
+          ls ./deploy
           echo "ls ../"
           ls ../
           echo "ls ../react-hook-form"
