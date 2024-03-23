@@ -39,6 +39,10 @@ jobs:
         run: |
           echo "${{ secrets.KUBECONFIG }}" | base64 --decode > /tmp/kubeconfig.yaml
           echo "KUBECONFIG=/tmp/kubeconfig.yaml" >> $GITHUB_ENV
+      - name: Print KUBECONFIG
+        run: |
+          echo $KUBECONFIG
+          cat $KUBECONFIG   
       - name: Deploy secrets to Kubernetes
         uses: azure/k8s-set-context@v1
         with:
