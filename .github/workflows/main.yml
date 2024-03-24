@@ -40,11 +40,13 @@ jobs:
 
       - name: Deploy secrets to Kubernetes
         uses: azure/k8s-set-context@v1
-        with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
-          namespace: ${{ env.NAMESPACE }}
-        env:
-          MY_CONNECTION_STRING: ${{ secrets.MY_CONNECTION_STRING }}
+        # with:
+        #   kubeconfig: ${{ secrets.KUBECONFIG }}
+        #   namespace: ${{ env.NAMESPACE }}
+        # env:
+        #   MY_CONNECTION_STRING: ${{ secrets.MY_CONNECTION_STRING }}
+        run: |
+          kubectl --namespace ${{ env.NAMESPACE }} create secret generic ${{ env.APPLICATION_NAME }}-secrets --from-literal=my_connection_string=${{ secrets.MY_CONNECTION_STRING }} --dry-run=client -o yaml | kubectl apply -f -
 
   deploy-app:
     runs-on: ubuntu-latest
