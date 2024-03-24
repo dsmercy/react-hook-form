@@ -63,6 +63,7 @@ jobs:
           version: v3.0.0
       - name: Deploy to Kubernetes
         run: |
+          kubectl config current-context
           helm upgrade --install react-hook-form ./deploy/react-hook-form/. --namespace ${{ env.NAMESPACE }}
             --set image.repository=$IMAGE
             --set image.tag=$TAG
