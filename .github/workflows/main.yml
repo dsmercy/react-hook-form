@@ -37,6 +37,7 @@ jobs:
     steps:
       - name: checkout code
         uses: actions/checkout@v2
+
       - name: Deploy secrets to Kubernetes
         uses: azure/k8s-set-context@v1
         with:
@@ -57,7 +58,7 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Set up Kubernetes cluster
+      - name: Set up Kubernetes cluster context
         uses: azure/k8s-set-context@v1
         with:
           kubeconfig: ${{ secrets.KUBECONFIG }}
@@ -73,6 +74,6 @@ jobs:
           kubectl config current-context
           helm upgrade --install react-hook-form ./deploy/react-hook-form/. \
             --namespace ${{ env.NAMESPACE }} \
-            --set image.repository=$IMAGE \
-            --set image.tag=$TAG \
-            --set namespace=$NAMESPACE
+            --set image.repository=${{ env.IMAGE }} \
+            --set image.tag=${{ env.TAG }} \
+            --set namespace=${{ env.NAMESPACE }}
