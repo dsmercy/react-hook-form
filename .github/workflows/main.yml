@@ -38,13 +38,14 @@ jobs:
       - name: checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy secrets to Kubernetes
+      - name: Set up Kubernetes cluster context
         uses: azure/k8s-set-context@v1
         # with:
         #   kubeconfig: ${{ secrets.KUBECONFIG }}
         #   namespace: ${{ env.NAMESPACE }}
         # env:
         #   MY_CONNECTION_STRING: ${{ secrets.MY_CONNECTION_STRING }}
+      - name: Deploy secrets to Kubernetes
         run: |
           kubectl --namespace ${{ env.NAMESPACE }} create secret generic ${{ env.APPLICATION_NAME }}-secrets --from-literal=my_connection_string=${{ secrets.MY_CONNECTION_STRING }} --dry-run=client -o yaml | kubectl apply -f -
 
