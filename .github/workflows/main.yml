@@ -67,15 +67,27 @@ jobs:
         with:
           version: v3.0.0
   
+      # - name: Deploy to Kubernetes
+      #   uses: azure/k8s-deploy@v1
+      #   with:
+      #     namespace: ${{ env.NAMESPACE }}
+      #     manifests: './deploy/react-hook-form/.'
+      #     images: |
+      #       docker.io/${{ env.IMAGE }}:${{ env.TAG }}
+      #     # imagepullsecrets: <image-pull-secret> # Name of the image pull secret
+      #     helm-version: v3
+      #     helm-chart: './deploy/react-hook-form' # Path to the Helm chart
+      #     helm-release-name: ${{ env.APPLICATION_NAME }} # Helm release name
+      #     helm-set: image.repository=docker.io/${{ env.IMAGE }},image.tag=${{ env.TAG }}
+      # - name: Set up Helm
+      #   uses: azure/setup-helm@v1
+      #   with:
+      #     version: v3.0.0
+
       - name: Deploy to Kubernetes
-        uses: azure/k8s-deploy@v1
-        with:
-          namespace: ${{ env.NAMESPACE }}
-          manifests: './deploy/react-hook-form/.'
-          images: |
-            docker.io/${{ env.IMAGE }}:${{ env.TAG }}
-          # imagepullsecrets: <image-pull-secret> # Name of the image pull secret
-          helm-version: v3
-          helm-chart: './deploy/react-hook-form' # Path to the Helm chart
-          helm-release-name: ${{ env.APPLICATION_NAME }} # Helm release name
-          helm-set: image.repository=docker.io/${{ env.IMAGE }},image.tag=${{ env.TAG }}
+        run: |
+          echo "Namespace: ${{NAMESPACE}}"
+          helm upgrade --install react-hook-form ./deploy/react-hook-form/. --namespace "${{NAMESPACE}}"
+            --set image.repository=${{ env.IMAGE }}
+            --set image.tag=${{ env.TAG }}
+            --set namespace=${{NAMESPACE}}
